@@ -1,0 +1,5 @@
+created: 20261001092241390
+modified: 20261001092241390
+title: $:/config/Server/ExternalFilters/[all[tiddlers]!is[system]!has[type]] [all[tiddlers]!is[system]regexp:type[(?i)^text/]]
+
+yes
