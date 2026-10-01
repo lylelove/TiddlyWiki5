@@ -40,3 +40,32 @@
 
 - 该仓库 `sections/*.tex` 是「独立可编译草稿」，每节自带 `\ifdefined\maintex\else` 前言；**加宏包必须同时改 `main.tex` 和该节前言两处**，否则单文件编译会挂。
 - 编译器坏了先看 `$env:LOCALAPPDATA\MiKTeX\miktex\log\*.log`，别怀疑自己的 `.tex`。
+
+## 追加：§2.2 / §2.3 / §2.4 各新增一张同类图（2026-10-01）
+
+用户要求「在第二节里再添加几个类似的说明图片」，并确认**每小节一张、共 3 张**，风格与 `fig:problem` 完全一致；明确**只改 .tex、不编译**。
+
+现在 §2 共 4 张图，均为纯 TikZ、黑白、图内文字极少、细节全放 `\caption`：
+
+| 位置 | label | 面板 (a) | 面板 (b) |
+| --- | --- | --- | --- |
+| §2.1 | `fig:problem` | 集货网络与两类协同模式 | 抵达品质与阶跃售价 |
+| §2.2 | `fig:kinetics` | 两种运输方式的货舱温度剖面（$T^{\mathrm{amb}}/T^{\mathrm{T}}/T^{\mathrm{D}}$ 三条点线导引 + 卡车实线降温 + 无人机虚线升温） | 暴露量的分段累积与装卸阶跃（折线斜率 = 速率常数，竖直阶跃 = $\Delta_{\mathrm{M}}$） |
+| §2.3 | `fig:grade` | 价值曲线的导数结构（阶跃售价 vs 虚线连续腐损参照，标 $\Pi_1..\Pi_3$） | 等级下降损失沿暴露量的累积（横轴 $\tau_i$，实心●卡车 / 空心○无人机的实现位置，两位置间台阶之和 = `eq:criterion` 左端第一项求和范围） |
+| §2.4 | `fig:critical` | 边际保鲜价值的阈值集中（脉冲只出现在 $\theta_a$，高度 $w_i\Pi_a$；区间内恒零故无曲线段） | 按降级时间裕量 $\sigma_i$ 的三类批次划分（无望 / 临界 / 充裕，并标 T/D 推荐方式） |
+
+### 本轮新增的关键约定
+
+- **样式名避开 TikZ 内置键**：`step`、`mark`、`pos`、`ref` 都是 TikZ 自带键，用作自定义 `.style` 名有被误解析的风险，已分别改名为 `val`、`cont`、`jump`、`marker`、`bnd`。写新图时不要用这些名字。
+- **不新增任何宏包/库**：三张图只用 `fig:problem` 已验证可编译的构造（`->`、`dashed`、`densely dotted`、`fill`/`fill=white` 圆、`.. controls ..`、`<->`、`\foreach`、`rectangle`、`circle`）。因此 `main.tex` 与 `section2.tex` 前言的 `\usepackage{tikz}` / `\usetikzlibrary{arrows.meta}` 无需改动。
+- **符号约定全文统一**：**实心● = 卡车，空心○ = 无人机**（沿 `fig:problem` 的用法）。
+- **编号一致性**：$\theta_1>\theta_2>\theta_3$（$\theta_1$ 在品质轴右端 = 最高等级门槛），价格落差按跨越顺序取 $\Pi_1/\Pi_2/\Pi_3$，各面板高度比例一致。
+- **站位声明**：隐含 $\tau^{\mathrm{D}}<\tau^{\mathrm{T}}$ 的图已在 caption 里注明「若 $\Delta\tau_i<0$ 则两个分界位置互换」，与正文「$\Delta\tau_i$ 符号不确定」一致。
+
+### 本轮未做的验证（遵用户指令）
+
+按用户要求**未执行任何编译**，只做静态核验：括号 928/928 平衡、`figure` 4/4、`tikzpicture` 8/8、`minipage` 8/8、`equation` 18/18、全部 `\label`/`\ref` 本地可解析、所有自定义 tikz 样式都在同一 `tikzpicture` 内定义过、CRLF 与无 BOM 保持。`main.pdf` 相对新图已过期，下次编译时需重跑（`xelatex -aux-directory=build -interaction=nonstopmode main.tex` 三遍；`latexmk` 在本机仍不可用）。
+
+### 编号影响（累计）
+
+插入 3 张图后，§2 的 4 张图占据图 1–4，§5 原有 9 张图整体后移**三位**（`fig:cont` 1→4 … ）。所有 `\ref` 由 LaTeX 自动重算，无需手改。
