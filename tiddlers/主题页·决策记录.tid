@@ -1,0 +1,13 @@
+created: 20261001085445687
+modified: 20261001085445687
+tags: 主题页 索引 dsh-docs
+title: 主题页·决策记录
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+
+!! 📌 决策记录主题汇总
+
+<div class="tc-message-box">自动收集带 <code>决策记录</code> 标签的笔记，按最近修改排序，共 <strong>{{{[tag[决策记录]!is[system]!has[draft.of]count[]]}}}</strong> 篇。给笔记打上「决策记录」标签即自动收录，本页无需维护（做法见 [[教程：按主题/标签做汇总页]]）。</div>
+
+<<list-links "[tag[决策记录]!is[system]!has[draft.of]] +[!sort[modified]]">>

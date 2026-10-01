@@ -1,0 +1,72 @@
+created: 20261001085445556
+modified: 20261001085445556
+tags: docs dsh-docs
+title: dsh-tiddlywiki 插件说明
+type: text/vnd.tiddlywiki
+
+! dsh-tiddlywiki 插件说明
+
+本插件把 **TiddlyWiki 5** 作为 DSH 的持久知识库（wiki 文件夹本身就是一个 git 仓库，随内容自动提交/同步）。
+
+!! 它能做什么
+* **15 个 agent 工具**（参数以工具 schema 为准，`?` 表示可选）：
+*  `tiddlywiki_search`（query?, tags?, tag?, since?, type?, field?, value?, limit?）
+*  `tiddlywiki_recent`（limit?, since?）
+*  `tiddlywiki_list_tags`（limit?）
+*  `tiddlywiki_get`（title）
+*  `tiddlywiki_put`（title, text, tags?, fields?, expectedModified?, expectedRevision?, force?）
+*  `tiddlywiki_batch_put`（items?, overwrite?）
+*  `tiddlywiki_append`（title, text, mode?, heading?, createIfMissing?, tags?, fields?, expectedModified?, expectedRevision?, force?）
+*  `tiddlywiki_rename`（oldTitle, newTitle, updateRefs?, expectedModified?, expectedRevision?, force?）
+*  `tiddlywiki_delete`（title, permanent?, expectedModified?, expectedRevision?, force?）
+*  `tiddlywiki_trash`（action, title?, limit?）
+*  `tiddlywiki_backlinks`（title, includeTags?, limit?）
+*  `tiddlywiki_attach`（title, path?, url?, tags?, noteTitle?, expectedModified?, expectedRevision?, force?）
+*  `tiddlywiki_lint`（limit?, checks?, staleAfterDays?）
+*  `tiddlywiki_git_sync`（action, message?）
+*  `tiddlywiki_git_resolve`（strategy, files?, wiki?）* **TW 编辑器面板**：侧边栏「TiddlyWiki」按钮 → 在界面中央打开完整版 TW 编辑器。
+* **快速笔记**：点击聊天输入框上方或右下角「知识库」菜单里的「📝 快速笔记」——默认**直达 TW 原生编辑页**（独立小窗，草稿自动续写）；也可在设置页切回 Markdown 卡片（语法高亮、文件上传、多选 tag、草稿自动保存、Ctrl+Enter 保存）。「✏️ 在 TW 中编辑」会弹出独立小窗用 TW 原生编辑器编辑。
+* **一键同步**：「知识库」按钮 → 「🔁 同步」一键 pull → commit → push，按钮上的状态点实时反映 git 状态。
+* **git 同步**：写入自动防抖 commit（默认 60 秒）；手动 `tiddlywiki_git_sync action=sync` 做 pull → commit → push。
+* **设置页**：DSH 设置 → 「TiddlyWiki 知识库」管理插件/主题/语言与运行配置（含「知识库」按钮相关显示开关）。
+* **注入给 Agent 的提示词可配置**（设置页「系统提示词」区块）：默认**精简版**只约定同步纪律/标签/链接格式（工具参数由工具 schema 提供，不重复）；可切完整版（附参数索引）、追加自定义规范（`extra`）、整段替换（`override`）或整体停用。保存即生效，无需重启 dsh web；点「查看当前注入文本」可预览下一步实际注入的全文。
+
+!! 多知识库（v0.28.0 起）
+
+同一个 dsh web 里可以**同时跑多个知识库**，每个库独立配置、独立 git，各自一个 TW 子进程。
+
+* **现在有几个库？**右下角「知识库」按钮的菜单会列出全部（● 是当前打开的那个）；输入框上方也会有「知识库」下拉，用来选**本会话**让 Agent 用哪个库（单选，选择会被记住）。
+* **加一个库**：DSH 设置 → 「TiddlyWiki 知识库」→ **知识库列表** → 填根目录 + 文件夹名 →「添加知识库」。目录不存在会自动初始化一个全新库；已存在的目录直接接管。
+* **让某个库对 Agent 隐身**：知识库列表里点该行「对 Agent 隐身」。隐身 = Agent 永远碰不到它（不进检索、不进工具、不进会话选择器），**你自己照常用**——适合只读语料、书籍扫描、导入归档。
+* **每个库一套设置**：笔记标签、语言、主题、提示词都在该库自己的配置里。设置页顶部会显示「**配置作用域**：…」，点某一行「配置」即可切换在编辑哪个库。
+* **git 按仓库生效**：多个库可以共用一个仓库（例如两个库是同一仓库下的两个子目录），也可以各自独立仓库。共用仓库时只有一个自动提交者，pull 后只重启内容真的变了的库。
+* **想拆分现有的大库**：见设置页文档或仓库里的 `docs/wiki-split.md`——那里有一段可以直接复制给 Agent 的话，它会先只读体检、再问你几个问题、出方案等你确认后才动手。
+
+!! 从旧版本升级上来（重要）
+
+**升级后不会自动变成多库**，仍然是单库模式（`mode: single`），行为与升级前完全一致。
+
+* **想继续用单库**：什么都不用做。设置页里「知识库位置（可切换）」只在单库模式出现，用法和以前一样。
+* **想开始用多库**：去设置页「知识库列表」添加第二个库，再把「运行模式」切到**多库**。此后清单里的库都会可用（标了「开局自启」的随 DSH 启动，其余在你打开或选中它时启动）。
+* **控制文件在哪**：`$DSH_HOME/dsh-tiddlywiki/wikis.json`（在每本 wiki **之外**，所以它不会随某个库被搬走）。运行模式、库清单、以及哪个库是默认的，都在里面；也可以在设置页里改，效果一样。
+* **旧的「知识库位置」指针文件**（`location.json`）在单库模式下仍然是权威的——多库模式下它不再参与，改由清单决定。
+* **每个库要有自己的 `tiddlywiki.info`**：把一个大库拆成多个目录时，每个目录都要有一个（缺了 TW 认不出它是库）。从旧库整体搬过来的目录通常已经有了。
+* **拆分大库的注意**：书籍/语料这类只读内容建议**独立仓库 + 对 Agent 隐身**；工作与个人笔记可以共用一个仓库、按子目录划分。搬运用 `git mv` 保留历史，别用"复制粘贴再删"。
+
+!! 知识库纪律（四条）
+
+1. 开工先 `tiddlywiki_git_sync action=pull`（rebase + autostash，真冲突会自动 abort 并报文件）。
+2. 冲突后：`tiddlywiki_git_resolve files=[冲突文件] strategy=keep-local|keep-remote` 按 tiddler 二选一解决，再重新 sync。
+3. 收工 `tiddlywiki_git_sync action=sync`。
+4. 插件自动 commit 兜底，手动 sync 用于需要主动推送的场合。
+
+!! 主题与语言
+
+* **主题**分两层：每行一个「☑ 加载」（多选 = TW 里可用的主题，依赖链自动带上）和「◉ 活动」（单选 = 当前视觉主题）。应用后自动重启 TW。
+* **语言**：设置页勾选 `zh-Hans`（简体）并应用，TW 界面即切换为中文。
+
+!! 说明
+
+* 本笔记由插件在**首次启动**时自动写入（一次性：只写一次）。删除后重启 dsh web **不会自动恢复**——它从此归你所有。
+* 本笔记带 `dsh-docs` 标签，会出现在首页「📚 插件文档」栏（与「示例与文档」seed 的教程/模板一起），不需要可自由删除。
+* 更多细节见插件仓库 README。

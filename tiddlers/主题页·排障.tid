@@ -1,0 +1,13 @@
+created: 20261001085445703
+modified: 20261001085445703
+tags: 主题页 索引 dsh-docs
+title: 主题页·排障
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+
+!! 🔧 排障主题汇总
+
+<div class="tc-message-box">自动收集带 <code>troubleshooting</code> 标签的笔记，按最近修改排序，共 <strong>{{{[tag[troubleshooting]!is[system]!has[draft.of]count[]]}}}</strong> 篇。给笔记打上「troubleshooting」标签即自动收录，本页无需维护（做法见 [[教程：按主题/标签做汇总页]]）。</div>
+
+<<list-links "[tag[troubleshooting]!is[system]!has[draft.of]] +[!sort[modified]]">>

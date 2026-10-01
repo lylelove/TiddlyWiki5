@@ -1,0 +1,10 @@
+author: dsh-tiddlywiki
+created: 20261001085445853
+description: 把当前笔记一键发送给 DSH Agent（TiddlyWiki → DSH 会话注入）
+modified: 20261001085445853
+name: Send to Agent
+plugin-type: plugin
+tags: 
+title: $:/plugins/dsh/send-to-agent
+type: application/json
+version: 0.3.6

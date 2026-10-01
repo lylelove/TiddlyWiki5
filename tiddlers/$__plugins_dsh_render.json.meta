@@ -1,0 +1,10 @@
+author: dsh-tiddlywiki
+created: 20261001085445931
+description: 把 wiki 文本原生渲染成 HTML 片段（POST /render 服务端路由），供 DSH 回复流工具卡与 wiki 链接跳转使用
+modified: 20261001085445931
+name: DSH Wiki Render
+plugin-type: plugin
+tags: 
+title: $:/plugins/dsh/render
+type: application/json
+version: 0.2.0
