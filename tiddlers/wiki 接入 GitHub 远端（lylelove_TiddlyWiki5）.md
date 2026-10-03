@@ -11,3 +11,8 @@
 - 用户贴过一个 GitHub PAT（ghp_ 开头），我按安全惯例**未使用**；它已出现在聊天记录里，应视为已泄露，建议到 https://github.com/settings/tokens 旋转吊销。实际推送并不需要它（GCM 浏览器登录即可）。
 
 **经验教训（插件行为）**：UI「🔁 同步」按钮（`routes.ts handleSync`）不做 git.remote 门禁，而 agent 工具（`tools-git.ts`）做——两条路径的门禁不一致属插件缺陷，可考虑给上游报 issue。
+
+**后续更新（2026-10-03）**：
+- ✅ **遗留事项已解决**：通过插件管理接口 `POST /dsh-tiddlywiki/admin/config` 写入了 `git.remote`（`https://github.com/lylelove/TiddlyWiki5.git`），运行时配置与磁盘配置 tiddler 均已更新。
+- 已验证 agent 工具 `tiddlywiki_git_sync` 的 `pull` 与 `sync` 均正常：pull 返回「已是最新」，sync 成功把配置提交（8855bb0）push 到 GitHub。
+- ⚠️ 仓库名提醒：GitHub 上的实际仓库是 `lylelove/TiddlyWiki5`（用户最初口头记为 `lylelove/TiddlyWiki`，经探测后者在 GitHub 上不存在）。
