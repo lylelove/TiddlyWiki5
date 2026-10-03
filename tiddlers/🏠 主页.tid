@@ -1,0 +1,62 @@
+caption: 🏠 主页
+created: 20261003033314411
+modified: 20261003033451716
+tags: 索引 ws/default-workspace agent-written
+title: 🏠 主页
+type: text/vnd.tiddlywiki
+workspace: default-workspace
+
+<div class="home-hero">
+<div class="home-hero-sub">这里是 {{$:/SiteSubtitle}} 的笔记库。默认打开本页；侧边栏可搜索、翻最近修改，或按标签浏览。</div>
+<div class="home-hero-stats">
+<div class="home-stat"><div class="home-stat-value"><$count filter="[!is[system]!has[draft.of]] -[tag[索引]] -[tag[$:/tags/Stylesheet]]"/></div><div class="home-stat-label">内容笔记</div></div>
+<div class="home-stat"><div class="home-stat-value"><$count filter="[!is[system]!has[draft.of]tags[]unique[]!prefix[ws/]!prefix[$:/]!match[agent-written]]"/></div><div class="home-stat-label">在用标签</div></div>
+<div class="home-stat"><div class="home-stat-value"><$view tiddler={{{[!is[system]!has[draft.of]!sort[modified]limit[1]]}}} field="modified" format="date" template="YYYY-0MM-0DD"/></div><div class="home-stat-label">最近更新</div></div>
+</div>
+<div class="home-actions">
+<$button class="home-btn" actions={{$:/core/ui/Actions/new-tiddler}}>{{$:/core/images/new-button}} 新建笔记</$button>
+<$button to="$:/AdvancedSearch" class="home-btn">{{$:/core/images/advanced-search-button}} 高级搜索</$button>
+<$button to="$:/TagManager" class="home-btn">{{$:/core/images/tag-button}} 标签管理</$button>
+<$button to="$:/ControlPanel" class="home-btn">{{$:/core/images/options-button}} 控制面板</$button>
+</div>
+</div>
+
+<div class="home-section">
+<div class="home-section-title">{{$:/core/images/folder}} 主题导航</div>
+<div class="home-cards">
+<$link to="主题页·日志" class="home-card"><div class="home-card-title">📔 日志</div><div class="home-card-desc">按最近修改收集带「日志」标签的笔记。</div></$link>
+<$link to="主题页·决策记录" class="home-card"><div class="home-card-title">📌 决策记录</div><div class="home-card-desc">沉淀选型与方案取舍，标注背景与结论。</div></$link>
+<$link to="主题页·排障" class="home-card"><div class="home-card-title">🔧 排障</div><div class="home-card-desc">报错、踩坑与修复过程的汇总。</div></$link>
+<$link to="教程：按主题/标签做汇总页" class="home-card"><div class="home-card-title">📚 教程</div><div class="home-card-desc">怎么写汇总页、筛选器速查。</div></$link>
+<$link to="主题汇总页·模板" class="home-card"><div class="home-card-title">🧩 模板</div><div class="home-card-desc">复制即用的空白汇总页。</div></$link>
+<$link to="dsh-tiddlywiki 插件说明" class="home-card"><div class="home-card-title">🧭 插件说明</div><div class="home-card-desc">工具、同步纪律与多库用法。</div></$link>
+</div>
+</div>
+
+<div class="home-section">
+<div class="home-section-title">{{$:/core/images/star-filled}} 最近更新</div>
+<ul class="home-list">
+<$list filter="[!is[system]!has[draft.of]!sort[modified]] -[tag[索引]] -[tag[$:/tags/Stylesheet]] +[limit[8]]" variable="note"><li class="home-item"><$link to=<<note>> class="home-item-link"><$text text=<<note>>/></$link><span class="home-item-meta"><$view tiddler=<<note>> field="modified" format="date" template="YYYY-0MM-0DD"/></span><span class="home-item-meta"><$list filter="[<note>tags[]!prefix[ws/]!prefix[$:/]]" variable="tg"><$text text=<<tg>>/> </$list></span></li>
+</$list>
+</ul>
+</div>
+
+<div class="home-section">
+<div class="home-section-title">{{$:/core/images/tag-button}} 标签</div>
+<div class="home-tags">
+<$list filter="[!is[system]tags[]unique[]!prefix[ws/]!prefix[$:/]!match[agent-written]sort[]]" variable="tg"><$link to=<<tg>> class="home-tag"><$text text=<<tg>>/><span class="home-tag-count"><$count filter="[<tg>tagging[]!is[system]!has[draft.of]]"/></span></$link>
+</$list>
+</div>
+</div>
+
+<div class="home-section">
+<div class="home-section-title">{{$:/core/images/folder}} 工作区</div>
+<div class="home-tags">
+<$list filter="[!is[system]tags[]unique[]prefix[ws/]sort[]]" variable="w"><$link to=<<w>> class="home-tag"><$text text=<<w>>/><span class="home-tag-count"><$count filter="[<w>tagging[]!is[system]!has[draft.of]]"/></span></$link>
+</$list>
+</div>
+</div>
+
+<div class="home-hint">
+改本页：点标题栏的编辑按钮即可。本页是纯 wikitext，数据全部由筛选器实时算出——新笔记只要打上对应标签，导航与标签区就会自动收录，本页无需维护。想换启动页，改 [[$:/DefaultTiddlers]] 即可。
+</div>

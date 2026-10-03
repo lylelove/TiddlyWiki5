@@ -1,0 +1,589 @@
+created: 20261003033301017
+modified: 20261003034152304
+tags: $:/tags/Stylesheet ws/default-workspace agent-written
+title: 清爽阅读风样式
+type: text/vnd.tiddlywiki
+workspace: default-workspace
+
+\import [subfilter{$:/core/config/GlobalImportFilter}]
+\rules only filteredtranscludeinline transcludeinline macrodef macrocallinline macrocallblock
+
+/* ============================================================
+   清爽阅读风 · 自定义外观
+   只改视觉，不动内核逻辑。
+   想恢复默认：删掉本条的 $:/tags/Stylesheet 标签即可。
+   选择器统一带 body.tc-body 前缀，保证盖过内核默认值、
+   不依赖样式表注入顺序。
+   ============================================================ */
+
+/* ---------- 1 页面底色 ---------- */
+
+/* 字体、字号、行高不在这里写死：
+   它们由主题度量与设置条目承载，这样控制面板「外观 → 主题调整」里
+   仍可自由改动而不会被本样式表覆盖。
+     字体  $:/themes/tiddlywiki/vanilla/settings/fontfamily
+     字号  $:/themes/tiddlywiki/vanilla/metrics/fontsize
+     行高  $:/themes/tiddlywiki/vanilla/metrics/lineheight
+     正文字号/行高  metrics/bodyfontsize、metrics/bodylineheight
+*/
+
+html body.tc-body {
+	background-color: <<colour page-background>>;
+}
+
+/* ---------- 2 笔记卡片 ---------- */
+
+body.tc-body .tc-tiddler-frame {
+	border: 1px solid <<colour tiddler-border>>;
+	border-radius: 12px;
+	box-shadow: 0 1px 2px rgba(16, 32, 51, 0.04), 0 12px 32px -18px rgba(16, 32, 51, 0.28);
+}
+
+body.tc-body .tc-story-river .tc-tiddler-frame {
+	border: 1px solid <<colour tiddler-border>>;
+	border-radius: 12px;
+	padding: 16px 16px 22px 16px;
+}
+
+@media (min-width: 768px) {
+
+	body.tc-body .tc-story-river .tc-tiddler-frame {
+		padding: 32px 42px 42px 42px;
+	}
+
+}
+
+body.tc-body .tc-tiddler-info {
+	border-radius: 8px;
+}
+
+/* 正文排版 */
+
+body.tc-body .tc-tiddler-body > p {
+	margin-top: 0.8em;
+	margin-bottom: 0.8em;
+}
+
+body.tc-body .tc-tiddler-body h1,
+body.tc-body .tc-tiddler-body h2,
+body.tc-body .tc-tiddler-body h3,
+body.tc-body .tc-tiddler-body h4 {
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	color: <<colour tiddler-title-foreground>>;
+}
+
+body.tc-body .tc-tiddler-body h2 {
+	margin-top: 1.7em;
+	margin-bottom: 0.7em;
+	padding-bottom: 0.3em;
+	border-bottom: 1px solid <<colour table-border>>;
+}
+
+body.tc-body .tc-tiddler-body h3 {
+	margin-top: 1.4em;
+	margin-bottom: 0.5em;
+}
+
+body.tc-body .tc-tiddler-body ul,
+body.tc-body .tc-tiddler-body ol {
+	padding-inline-start: 1.6em;
+}
+
+body.tc-body .tc-tiddler-body li {
+	margin: 0.3em 0;
+}
+
+body.tc-body .tc-tiddler-body li > p {
+	margin: 0.3em 0;
+}
+
+body.tc-body .tc-tiddler-body hr {
+	margin: 1.8em 0;
+	border: 0;
+	border-top: 1px solid <<colour table-border>>;
+}
+
+/* ---------- 3 标题栏 ---------- */
+
+body.tc-body .tc-site-title,
+body.tc-body .tc-titlebar {
+	font-size: 1.8em;
+	font-weight: 600;
+	line-height: 1.32;
+	letter-spacing: -0.01em;
+}
+
+body.tc-body .tc-titlebar {
+	color: <<colour tiddler-title-foreground>>;
+}
+
+body.tc-body .tc-titlebar:after {
+	content: "";
+	display: block;
+	width: 46px;
+	height: 3px;
+	margin-top: 12px;
+	border-radius: 3px;
+	background-image: linear-gradient(90deg, <<colour primary>> 0%, <<colour primary>> 55%, transparent 100%);
+}
+
+body.tc-body .tc-subtitle {
+	margin-top: 9px;
+	font-size: 0.84em;
+	color: <<colour tiddler-subtitle-foreground>>;
+}
+
+body.tc-body .tc-tiddler-controls button svg,
+body.tc-body .tc-tiddler-controls button img {
+	fill: <<colour tiddler-controls-foreground>>;
+	transition: fill 160ms ease;
+}
+
+body.tc-body .tc-tiddler-controls button:hover svg,
+body.tc-body .tc-tiddler-controls button:hover img {
+	fill: <<colour tiddler-controls-foreground-hover>>;
+}
+
+/* ---------- 4 链接 ---------- */
+
+body.tc-body a.tc-tiddlylink,
+body.tc-body button.tc-tiddlylink {
+	text-decoration: none;
+	transition: color 150ms ease;
+}
+
+body.tc-body a.tc-tiddlylink:hover,
+body.tc-body button.tc-tiddlylink:hover {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+body.tc-body .tc-sidebar-lists a.tc-tiddlylink {
+	color: <<colour sidebar-tiddler-link-foreground>>;
+}
+
+body.tc-body .tc-sidebar-lists a.tc-tiddlylink:hover {
+	color: <<colour sidebar-tiddler-link-foreground-hover>>;
+}
+
+/* ---------- 5 代码 ---------- */
+
+body.tc-body code {
+	padding: 0.14em 0.42em;
+	border: 1px solid <<colour code-border>>;
+	border-radius: 5px;
+	background-color: <<colour code-background>>;
+	color: <<colour code-foreground>>;
+	font-size: 0.88em;
+}
+
+body.tc-body pre {
+	padding: 12px 14px;
+	border: 1px solid <<colour pre-border>>;
+	border-radius: 9px;
+	background-color: <<colour pre-background>>;
+	line-height: 1.6;
+}
+
+body.tc-body pre code,
+body.tc-body pre > code {
+	padding: 0;
+	border: none;
+	background: transparent;
+	font-size: 0.9em;
+}
+
+body.tc-body pre code.hljs {
+	border-radius: 9px;
+}
+
+body.tc-body kbd {
+	padding: 0.15em 0.45em;
+	border: 1px solid <<colour table-border>>;
+	border-radius: 5px;
+	background: <<colour background>>;
+	box-shadow: 0 1px 0 <<colour table-border>>;
+	font-size: 0.82em;
+}
+
+/* ---------- 6 引用与提示块 ---------- */
+
+body.tc-body blockquote {
+	margin-inline-start: 0;
+	padding: 0.25em 1.1em;
+	border-inline-start: 3px solid <<colour blockquote-bar>>;
+	border-radius: 0 8px 8px 0;
+	background: <<colour pre-background>>;
+}
+
+body.tc-body blockquote > div {
+	margin-top: 0.6em;
+	margin-bottom: 0.6em;
+}
+
+body.tc-body .tc-message-box {
+	border: 1px solid <<colour message-border>>;
+	border-radius: 9px;
+	padding: 10px 18px;
+	font-size: 0.88em;
+	line-height: 1.7;
+}
+
+/* ---------- 7 表格 ---------- */
+
+body.tc-body table {
+	border: 1px solid <<colour table-border>>;
+	border-radius: 10px;
+	overflow: hidden;
+	margin: 1.2em 0;
+}
+
+body.tc-body table th,
+body.tc-body table td {
+	padding: 8px 12px;
+	border: none;
+	border-top: 1px solid <<colour table-border>>;
+	border-left: 1px solid <<colour table-border>>;
+}
+
+body.tc-body table thead tr td,
+body.tc-body table th {
+	background-color: <<colour table-header-background>>;
+	font-weight: 600;
+}
+
+body.tc-body table tbody tr:nth-child(even) td {
+	background-color: <<colour table-header-background>>;
+}
+
+body.tc-body table th:first-child,
+body.tc-body table td:first-child {
+	border-left: none;
+}
+
+body.tc-body table thead tr:first-child th,
+body.tc-body table thead tr:first-child td {
+	border-top: none;
+}
+
+/* ---------- 8 标签丸 ---------- */
+
+body.tc-body button.tc-tag-label,
+body.tc-body span.tc-tag-label {
+	padding: 0.14em 0.72em;
+	border: 1px solid <<colour tag-border>>;
+	border-radius: 999px;
+	background-color: <<colour tag-background>>;
+	color: <<colour tag-foreground>>;
+	font-size: 0.82em;
+	line-height: 1.55em;
+}
+
+body.tc-body .tc-tags-wrapper .tc-tag-list-item {
+	margin-right: 6px;
+	margin-bottom: 4px;
+}
+
+/* ---------- 9 侧边栏 ---------- */
+
+body.tc-body .tc-sidebar-header {
+	padding-bottom: 12px;
+	border-bottom: 1px solid <<colour sidebar-tab-divider>>;
+}
+
+body.tc-body .tc-sidebar-scrollable .tc-site-title {
+	font-size: 1.4em;
+	color: <<colour tiddler-title-foreground>>;
+}
+
+body.tc-body .tc-sidebar-scrollable .tc-site-subtitle {
+	margin-top: 2px;
+	font-size: 0.82em;
+	color: <<colour sidebar-foreground>>;
+}
+
+body.tc-body .tc-sidebar-lists input {
+	padding: 5px 10px;
+	border: 1px solid <<colour table-border>>;
+	border-radius: 8px;
+	background: <<colour background>>;
+}
+
+body.tc-body .tc-sidebar-lists input:focus {
+	border-color: <<colour primary>>;
+	outline: none;
+}
+
+body.tc-body .tc-sidebar-lists .tc-tab-buttons button {
+	padding: 4px 10px;
+	border: 1px solid <<colour sidebar-tab-border>>;
+	border-bottom: none;
+	border-radius: 7px 7px 0 0;
+	background-color: <<colour sidebar-tab-background>>;
+	color: <<colour sidebar-tab-foreground>>;
+}
+
+body.tc-body .tc-sidebar-lists .tc-tab-buttons button.tc-tab-selected {
+	background-color: <<colour sidebar-tab-background-selected>>;
+	color: <<colour tiddler-title-foreground>>;
+	border-color: <<colour sidebar-tab-border-selected>>;
+	border-bottom: 1px solid <<colour sidebar-tab-background-selected>>;
+	font-weight: 600;
+}
+
+body.tc-body .tc-sidebar-lists .tc-tab-divider {
+	border-top: 1px solid <<colour sidebar-tab-divider>>;
+}
+
+body.tc-body .tc-sidebar-scrollable .tc-menu-list-item {
+	padding: 2px 0;
+}
+
+body.tc-body .tc-sidebar-scrollable {
+	scrollbar-width: thin;
+}
+
+/* ---------- 10 滚动条 ---------- */
+
+body.tc-body .tc-scrollable::-webkit-scrollbar,
+body.tc-body .tc-sidebar-scrollable::-webkit-scrollbar,
+body.tc-body .tc-tiddler-body pre::-webkit-scrollbar {
+	width: 9px;
+	height: 9px;
+}
+
+body.tc-body .tc-scrollable::-webkit-scrollbar-thumb,
+body.tc-body .tc-sidebar-scrollable::-webkit-scrollbar-thumb,
+body.tc-body .tc-tiddler-body pre::-webkit-scrollbar-thumb {
+	border: 2px solid transparent;
+	border-radius: 9px;
+	background-clip: content-box;
+	background-color: <<colour muted-foreground>>;
+}
+
+body.tc-body .tc-scrollable::-webkit-scrollbar-thumb:hover,
+body.tc-body .tc-sidebar-scrollable::-webkit-scrollbar-thumb:hover,
+body.tc-body .tc-tiddler-body pre::-webkit-scrollbar-thumb:hover {
+	background-color: <<colour tiddler-controls-foreground-hover>>;
+}
+
+body.tc-body .tc-scrollable::-webkit-scrollbar-track,
+body.tc-body .tc-sidebar-scrollable::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+/* ============================================================
+   11 首页（🏠 主页）专用版式
+   类名都以 home- 开头，只在首页使用，不影响其他笔记。
+   ============================================================ */
+
+body.tc-body .home-hero {
+	margin: 4px 0 26px 0;
+	padding: 22px 24px;
+	border: 1px solid <<colour message-border>>;
+	border-radius: 14px;
+	background-image: linear-gradient(135deg, <<colour message-background>> 0%, <<colour background>> 100%);
+}
+
+body.tc-body .home-hero-sub {
+	margin: 0;
+	font-size: 1.02em;
+	line-height: 1.75;
+	color: <<colour message-foreground>>;
+}
+
+body.tc-body .home-hero-stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 18px;
+}
+
+body.tc-body .home-stat {
+	flex: 1 1 140px;
+	padding: 10px 14px;
+	border: 1px solid <<colour table-border>>;
+	border-radius: 10px;
+	background: <<colour background>>;
+}
+
+body.tc-body .home-stat-value {
+	font-size: 1.45em;
+	font-weight: 600;
+	line-height: 1.3;
+	color: <<colour primary>>;
+	font-variant-numeric: tabular-nums;
+}
+
+body.tc-body .home-stat-label {
+	margin-top: 2px;
+	font-size: 0.78em;
+	color: <<colour tiddler-subtitle-foreground>>;
+}
+
+body.tc-body .home-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 18px;
+}
+
+body.tc-body .home-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 7px 14px;
+	border: 1px solid <<colour table-border>>;
+	border-radius: 9px;
+	background: <<colour background>>;
+	color: <<colour foreground>>;
+	font-size: 0.9em;
+	cursor: pointer;
+	transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+body.tc-body .home-btn svg {
+	height: 1em;
+	width: 1em;
+	fill: <<colour primary>>;
+}
+
+body.tc-body .home-btn:hover {
+	border-color: <<colour primary>>;
+	box-shadow: 0 4px 12px -6px rgba(16, 32, 51, 0.35);
+	transform: translateY(-1px);
+}
+
+body.tc-body .home-section {
+	margin: 0 0 26px 0;
+}
+
+body.tc-body .home-section-title {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	margin-bottom: 12px;
+	padding-bottom: 7px;
+	border-bottom: 1px solid <<colour table-border>>;
+	font-size: 1em;
+	font-weight: 600;
+	color: <<colour tiddler-title-foreground>>;
+}
+
+body.tc-body .home-section-title svg {
+	height: 1em;
+	width: 1em;
+	fill: <<colour primary>>;
+}
+
+body.tc-body .home-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+	gap: 12px;
+}
+
+body.tc-body a.home-card {
+	display: block;
+	padding: 14px 16px;
+	border: 1px solid <<colour table-border>>;
+	border-radius: 11px;
+	background: <<colour background>>;
+	color: inherit;
+	transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+body.tc-body a.home-card:hover {
+	border-color: <<colour primary>>;
+	box-shadow: 0 8px 20px -12px rgba(16, 32, 51, 0.45);
+	transform: translateY(-2px);
+	text-decoration: none;
+}
+
+body.tc-body .home-card-title {
+	font-size: 0.98em;
+	font-weight: 600;
+	color: <<colour primary>>;
+}
+
+body.tc-body .home-card-desc {
+	margin-top: 5px;
+	font-size: 0.8em;
+	line-height: 1.65;
+	color: <<colour tiddler-subtitle-foreground>>;
+}
+
+body.tc-body ul.home-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+body.tc-body li.home-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 4px 10px;
+	margin: 0;
+	padding: 8px 2px;
+	border-bottom: 1px dashed <<colour table-border>>;
+}
+
+body.tc-body li.home-item:last-child {
+	border-bottom: none;
+}
+
+body.tc-body a.home-item-link {
+	flex: 1 1 320px;
+	min-width: 0;
+	font-weight: 500;
+	color: <<colour tiddler-link-foreground>>;
+}
+
+body.tc-body .home-item-meta {
+	font-size: 0.78em;
+	color: <<colour tiddler-subtitle-foreground>>;
+	font-variant-numeric: tabular-nums;
+}
+
+body.tc-body .home-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+}
+
+body.tc-body a.home-tag {
+	display: inline-flex;
+	align-items: center;
+	padding: 3px 11px;
+	border: 1px solid <<colour table-border>>;
+	border-radius: 999px;
+	background: <<colour table-header-background>>;
+	color: <<colour message-foreground>>;
+	font-size: 0.82em;
+}
+
+body.tc-body a.home-tag:hover {
+	border-color: <<colour primary>>;
+	color: <<colour primary>>;
+	text-decoration: none;
+}
+
+body.tc-body .home-tag-count {
+	margin-left: 6px;
+	padding: 0 6px;
+	border-radius: 999px;
+	background: <<colour background>>;
+	font-size: 0.85em;
+	color: <<colour tiddler-subtitle-foreground>>;
+}
+
+body.tc-body .home-hint {
+	margin-top: 6px;
+	padding: 12px 16px;
+	border: 1px dashed <<colour table-border>>;
+	border-radius: 10px;
+	font-size: 0.84em;
+	line-height: 1.75;
+	color: <<colour tiddler-subtitle-foreground>>;
+}
