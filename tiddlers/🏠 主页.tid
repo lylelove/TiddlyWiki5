@@ -1,6 +1,6 @@
 caption: 🏠 主页
 created: 20261003033314411
-modified: 20261003033451716
+modified: 20261003034519848
 tags: 索引 ws/default-workspace agent-written
 title: 🏠 主页
 type: text/vnd.tiddlywiki
@@ -36,7 +36,7 @@ workspace: default-workspace
 <div class="home-section">
 <div class="home-section-title">{{$:/core/images/star-filled}} 最近更新</div>
 <ul class="home-list">
-<$list filter="[!is[system]!has[draft.of]!sort[modified]] -[tag[索引]] -[tag[$:/tags/Stylesheet]] +[limit[8]]" variable="note"><li class="home-item"><$link to=<<note>> class="home-item-link"><$text text=<<note>>/></$link><span class="home-item-meta"><$view tiddler=<<note>> field="modified" format="date" template="YYYY-0MM-0DD"/></span><span class="home-item-meta"><$list filter="[<note>tags[]!prefix[ws/]!prefix[$:/]]" variable="tg"><$text text=<<tg>>/> </$list></span></li>
+<$list filter="[!is[system]!has[draft.of]!sort[modified]] -[tag[索引]] -[tag[$:/tags/Stylesheet]] +[limit[8]]" variable="note"><li class="home-item"><$link to=<<note>> class="home-item-link"><$text text=<<note>>/></$link><span class="home-item-meta"><$view tiddler=<<note>> field="modified" format="date" template="YYYY-0MM-0DD"/></span><span class="home-item-meta"><$list filter="[<note>tags[]!prefix[ws/]!prefix[$:/]!match[agent-written]]" variable="tg"><$text text=<<tg>>/> </$list></span></li>
 </$list>
 </ul>
 </div>

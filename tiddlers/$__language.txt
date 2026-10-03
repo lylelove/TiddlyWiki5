@@ -1,1 +1,1 @@
-$:/languages/zh-CN
+$:/languages/zh-Hans
