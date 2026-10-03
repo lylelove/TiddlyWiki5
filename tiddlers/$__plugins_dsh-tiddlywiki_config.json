@@ -1,3 +1,6 @@
 {
-  "uiLanguage": "zh-CN"
+  "uiLanguage": "zh-CN",
+  "git": {
+    "remote": "https://github.com/lylelove/TiddlyWiki5.git"
+  }
 }
