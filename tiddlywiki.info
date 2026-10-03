@@ -38,6 +38,7 @@
         ]
     },
     "languages": [
-        "zh-Hans"
+        "zh-Hans",
+        "zh-CN"
     ]
 }
